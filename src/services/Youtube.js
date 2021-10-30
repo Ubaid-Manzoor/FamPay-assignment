@@ -29,8 +29,14 @@ class Youtube {
       const videos = items.map((item) => {
         const { snippet, id } = item;
         const { videoId } = id;
-        const { title, description, channelId, channelTitle, thumbnails } =
-          snippet;
+        const {
+          title,
+          description,
+          channelId,
+          channelTitle,
+          thumbnails,
+          publishedAt,
+        } = snippet;
 
         return {
           title,
@@ -38,6 +44,7 @@ class Youtube {
           channelId,
           channelTitle,
           videoId,
+          publishedAt,
           thumbnails: {
             default: thumbnails.default,
             medium: thumbnails.medium,

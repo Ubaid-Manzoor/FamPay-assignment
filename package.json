@@ -24,7 +24,6 @@
     "express": "^4.17.1",
     "googleapis": "^89.0.0",
     "mongoose": "^5.10.19",
-    "mongoose-fuzzy-searching": "^2.0.2",
     "node-schedule": "^2.0.0"
   },
   "devDependencies": {

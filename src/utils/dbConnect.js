@@ -13,10 +13,17 @@ mongoose
 
 const conn = mongoose.connection;
 
-conn.on("connected", function () {
+conn.once("open", async () => {
+  await conn.collection("videos").createIndexes({
+    title: "text",
+    description: "text",
+  });
+});
+
+conn.on("connected", () => {
   console.log("database is connected successfully 😍!!");
 });
-conn.on("disconnected", function () {
+conn.on("disconnected", () => {
   console.log("database is disconnected successfully");
 });
 

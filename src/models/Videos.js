@@ -3,18 +3,9 @@ const mongoose = require("mongoose");
 const VideosSchema = new mongoose.Schema(
   {
     title: String,
-    channelId: {
-      type: String,
-      required: true,
-    },
-    channelTitle: {
-      type: String,
-      required: true,
-    },
-    videoId: {
-      type: String,
-      required: true,
-    },
+    channelId: String,
+    channelTitle: String,
+    videoId: String,
     description: String,
     thumbnails: {
       default: {
@@ -32,8 +23,8 @@ const VideosSchema = new mongoose.Schema(
         width: Number,
         height: Number,
       },
-      publishedAt: Date,
     },
+    publishedAt: Date,
   },
   { timestamps: true }
 );

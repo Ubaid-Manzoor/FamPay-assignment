@@ -15,9 +15,11 @@ schedule.scheduleJob(process.env.FETCH_VIDEO_CRON, async () => {
       publishedAfter,
     });
 
+    console.log(videos);
     const response = await VideosService.create(videos);
     console.log(response);
   } catch (error) {
+    console.log(error);
     console.log(error);
   }
 });

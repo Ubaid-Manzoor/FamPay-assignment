@@ -1,11 +1,14 @@
 const express = require("express");
 const VideosService = require("../../services/Videos");
 const ApiError = require("../../error/ApiError");
+const logger = require("../../logger");
 
 const router = express.Router();
 
 router.get("/search", async (req, res, next) => {
   try {
+    logger.info("@API /search");
+
     let {
       page = 1,
       sortBy = "publishedAt",
@@ -24,12 +27,14 @@ router.get("/search", async (req, res, next) => {
     // Handle Bad Request
     if (page <= 0) {
       next(ApiError.badRequest({ message: "page should be greater then 0" }));
+      return;
     }
 
     if (pageSize <= 0) {
       next(
         ApiError.badRequest({ message: "pageSize should be greater then 0" })
       );
+      return;
     }
 
     let videoCount;
@@ -52,7 +57,7 @@ router.get("/search", async (req, res, next) => {
       data: videos,
     });
   } catch (error) {
-    console.log(error);
+    logger.error(`@API /search ${error}`);
     next({}); // will go error handler and default error response will be send
   }
 });

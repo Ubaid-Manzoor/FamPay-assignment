@@ -1,4 +1,5 @@
 const { google } = require("googleapis");
+const logger = require("../logger");
 const CONSTANTS = require("../config/constants");
 
 class Youtube {
@@ -34,7 +35,7 @@ class Youtube {
       if (!query) throw new Error("query is required");
       if (!query) throw new Error("publishedAfter is required");
 
-      console.log({ maxResults, order, query, publishedAfter });
+      logger.info("@Service Youtube - fetchVideos");
       const {
         data: { items },
       } = await this.googleService.search.list({
@@ -77,6 +78,7 @@ class Youtube {
       if (error?.errors[0]?.reason === "quotaExceeded") {
         this.setNewKey();
       } else {
+        logger.error(`@Service Youtube - fetchVideos ${error}`);
         throw error;
       }
     }

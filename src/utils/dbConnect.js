@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const CONSTANTS = require("../config/constants");
+const logger = require("../logger");
 
 mongoose
   .connect(CONSTANTS.MONGODB_URI, {
@@ -9,7 +10,7 @@ mongoose
   })
   .then(() => {})
   .catch((error) => {
-    console.log(error);
+    logger.error(error);
   });
 
 const conn = mongoose.connection;
@@ -22,13 +23,13 @@ conn.once("open", async () => {
 });
 
 conn.on("connected", () => {
-  console.log("database is connected successfully 😍!!");
+  logger.info("database is connected successfully 😍!!");
 });
 conn.on("disconnected", () => {
-  console.log("database is disconnected successfully");
+  logger.info("database is disconnected successfully");
 });
 
 conn.on("error", (error) => {
-  console.log("Error while connecting the db 😱!!");
-  console.log(error);
+  logger.info("Error while connecting the db 😱!!");
+  logger.error(error);
 });

@@ -11,6 +11,7 @@ class Videos {
 
   static async documentCount({ query } = {}) {
     try {
+      console.log(query);
       return await VideosModel.countDocuments(query).exec();
     } catch (error) {
       throw error;

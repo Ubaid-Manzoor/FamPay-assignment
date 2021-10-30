@@ -3,14 +3,32 @@ const CONSTANTS = require("../config/constants");
 
 class Youtube {
   constructor() {
+    this.keyList = CONSTANTS.YOUTUBE_API_KEYS.split(",").map((key) =>
+      key.trim()
+    );
+    this.currentKeyIndex = 0;
+
     this.googleService = google.youtube({
       version: "v3",
-      auth: CONSTANTS.YOUTUBE_API_KEY,
+      auth: this.keyList[this.currentKeyIndex],
     });
+  }
+
+  setNewKey() {
+    if (this.currentKeyIndex < this.keyList.length - 1) {
+      this.googleService = google.youtube({
+        version: "v3",
+        auth: this.keyList[++this.currentKeyIndex],
+      });
+    } else {
+      throw new Error("All keys quota Exceeded");
+    }
   }
 
   async fetchVideos({ maxResults, order, query, publishedAfter }) {
     try {
+      if (this.currentKey >= this.keyList.length)
+        throw new Error("All keys quota Exceeded");
       if (!maxResults) throw new Error("maxResult is required");
       if (!order) throw new Error("order is required");
       if (!query) throw new Error("query is required");
@@ -56,8 +74,11 @@ class Youtube {
 
       return videos;
     } catch (error) {
-      console.log(error);
-      throw error;
+      if (error?.errors[0]?.reason === "quotaExceeded") {
+        this.setNewKey();
+      } else {
+        throw error;
+      }
     }
   }
 }

@@ -7,7 +7,7 @@ const CONSTANTS = require("../config/constants");
 schedule.scheduleJob(CONSTANTS.FETCH_VIDEO_CRON, async () => {
   try {
     const publishedAfter = dayjs()
-      .subtract(CONSTANTS.FETCH_TIME_MIN, "minute")
+      .subtract(CONSTANTS.FETCH_TIME_SEC, "second")
       .toISOString();
     const videos = await YoutubeService.fetchVideos({
       maxResults: CONSTANTS.MAX_RESULT_SIZE,
@@ -20,7 +20,6 @@ schedule.scheduleJob(CONSTANTS.FETCH_VIDEO_CRON, async () => {
     const response = await VideosService.create(videos);
     console.log(response);
   } catch (error) {
-    console.log(error);
     console.log(error);
   }
 });

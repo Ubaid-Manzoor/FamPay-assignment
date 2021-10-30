@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const CONSTANTS = require("../config/constants");
 
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect(CONSTANTS.MONGODB_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,

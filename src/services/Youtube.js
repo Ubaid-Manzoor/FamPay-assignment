@@ -1,10 +1,11 @@
 const { google } = require("googleapis");
+const CONSTANTS = require("../config/constants");
 
 class Youtube {
   constructor() {
     this.googleService = google.youtube({
       version: "v3",
-      auth: process.env.YOUTUBE_API_KEY,
+      auth: CONSTANTS.YOUTUBE_API_KEY,
     });
   }
 
@@ -55,6 +56,7 @@ class Youtube {
 
       return videos;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }

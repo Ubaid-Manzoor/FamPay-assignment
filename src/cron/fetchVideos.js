@@ -7,6 +7,7 @@ const logger = require("../logger");
 
 schedule.scheduleJob(CONSTANTS.FETCH_VIDEO_CRON, async () => {
   try {
+    logger.info("@Cron Job Called");
     const publishedAfter = dayjs()
       .subtract(CONSTANTS.FETCH_TIME_SEC, "second")
       .toISOString();
@@ -18,6 +19,7 @@ schedule.scheduleJob(CONSTANTS.FETCH_VIDEO_CRON, async () => {
     });
 
     const response = await VideosService.create(videos);
+    logger.info(`${videos?.length ?? 0} video found`);
   } catch (error) {
     logger.error(`@ScheduleJob ${error}`);
   }
